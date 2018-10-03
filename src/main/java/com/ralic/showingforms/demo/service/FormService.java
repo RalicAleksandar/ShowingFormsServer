@@ -17,17 +17,8 @@ public class FormService {
 
     private static int id = 0;
 
-    static {
-        Form f = new Form();
-        f.setId("1");
-        f.setName("Form 4222123322");
-        FormItem[] fi = new FormItem[]{
-                new FormItem(ItemType.CHECKBOX, "las", false),
-                new FormItem(ItemType.INPUT, "las", true),
-                new FormItem(ItemType.CHECKBOX, "las", false)
-        };
-        f.setItems(fi);
-        forms.put(f.getId(), f);
+    private static String generateId() {
+        return Integer.toString(++id);
     }
 
     public ResponseEntity<Form> getForm(String id) {
@@ -39,15 +30,11 @@ public class FormService {
         }
     }
 
-    public String createForm(Form form) {
-        String id = FormService.generateId();
+    public String persistForm(Form form) {
+        String id = form.getId() != null ? form.getId() : FormService.generateId();
         form.setId(id);
         forms.put(id, form);
         return id;
-    }
-
-    private static String generateId() {
-        return Integer.toString(++id);
     }
 
     public ResponseEntity<Collection<Form>> getAllForms() {

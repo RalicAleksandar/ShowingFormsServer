@@ -3,6 +3,7 @@ package com.ralic.showingforms.demo.controller;
 import com.ralic.showingforms.demo.model.Form;
 import com.ralic.showingforms.demo.service.FormService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,15 +53,16 @@ public class FormController {
             method = RequestMethod.POST
     )
     public String createForm(@RequestBody Form form) {
-        return this.formService.createForm(form);
+        return this.formService.persistForm(form);
     }
 
     @RequestMapping(
-            value = "/form/{id}",
+            value = "/form",
             method = RequestMethod.PATCH
     )
-    public String updateForm(@PathVariable("id") String id) {
-        return "";
+    public ResponseEntity updateForm(@RequestBody Form form) {
+        this.formService.persistForm(form);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @RequestMapping(
