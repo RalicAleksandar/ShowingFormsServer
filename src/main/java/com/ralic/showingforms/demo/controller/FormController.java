@@ -1,6 +1,7 @@
 package com.ralic.showingforms.demo.controller;
 
 import com.ralic.showingforms.demo.model.Form;
+import com.ralic.showingforms.demo.model.SubmittedForm;
 import com.ralic.showingforms.demo.service.FormService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,7 +29,7 @@ public class FormController {
             value = "/forms",
             method = RequestMethod.GET
     )
-    public ResponseEntity<Collection<Form>> getAllSummary() {
+    public ResponseEntity<Collection<Form>> getAllForms() {
         return formService.getAllForms();
     }
 
@@ -36,24 +37,34 @@ public class FormController {
             value = "/submitted",
             method = RequestMethod.GET
     )
-    public String getAllSubmitted() {
-        return "";
+    public ResponseEntity getAllSubmitted() {
+        return this.formService.getAllSubmittedForms();
+    }
+
+    @RequestMapping(
+            value = "/submit",
+            method = RequestMethod.POST
+    )
+    public ResponseEntity submitForm(@RequestBody SubmittedForm form) {
+        this.formService.submitForm(form);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @RequestMapping(
             value = "/submitted/{id}",
             method = RequestMethod.GET
     )
-    public String getSubmitted(@PathVariable("id") String id) {
-        return "";
+    public ResponseEntity getSubmitted(@PathVariable("id") String id) {
+        return this.formService.getSubmittedForm(id);
     }
 
     @RequestMapping(
             value = "/form",
             method = RequestMethod.POST
     )
-    public String createForm(@RequestBody Form form) {
-        return this.formService.persistForm(form);
+    public ResponseEntity createForm(@RequestBody Form form) {
+        this.formService.persistForm(form);
+        return new ResponseEntity (HttpStatus.OK);
     }
 
     @RequestMapping(
@@ -63,13 +74,5 @@ public class FormController {
     public ResponseEntity updateForm(@RequestBody Form form) {
         this.formService.persistForm(form);
         return new ResponseEntity(HttpStatus.OK);
-    }
-
-    @RequestMapping(
-            value = "/submit/{id}",
-            method = RequestMethod.POST
-    )
-    public String submitted(@PathVariable("id") String id) {
-        return "";
     }
 }
