@@ -1,12 +1,12 @@
-package com.ralic.showingforms;
+package com.ralic.showingforms.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ShowingFormsApplication {
+public class DemoApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ShowingFormsApplication.class, args);
+        SpringApplication.run(DemoApplication.class, args);
     }
 }
